@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./config/nginx:/etc/nginx/conf.d
+            - ./logs/nginx:/var/log/nginx/
+            - ./src:/var/www
+        links:
+            - php
+            - mysql
+    php:
+        build:
+          context: ./build
+          dockerfile: PHP
+        container_name: php
+        volumes:
+            - ./src:/var/www
+            - ./config/php:/usr/local/etc/php/custom.d
+        environment:
+            PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+        links:
+            - mysql
+    mysql:
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        container_name: mysql
+        env_file: .env
+        volumes:
+            - ./db/mysql:/var/lib/mysql
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        ports:
+            - "8090:80"
+        links:
+            - mysql
+        environment:
+          PMA_HOST: mysql
