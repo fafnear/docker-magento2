@@ -1,14 +1,15 @@
+.idea/*
 .env
 db/
 logs/
 src/vendor/
 src/var/
 src/generated/
-src/etc/config.php
-src/etc/db_schema.xml
-src/etc/di.xml
-src/etc/env.php
-src/etc/di.xml
+src/app/etc/config.php
+src/app/etc/db_schema.xml
+src/app/etc/di.xml
+src/app/etc/env.php
+src/app/etc/di.xml
 
 /src/.buildpath
 /src/.cache
